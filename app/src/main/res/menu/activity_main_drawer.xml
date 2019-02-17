@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Связь">
+        <menu>
+            <item
+                android:id="@+id/nav_search"
+                android:icon="@drawable/ic_menu_search"
+                android:title="Поиск устройств" />
+        </menu>
+    </item>
+    <item android:title="Параметры">
+        <menu>
+            <item
+                android:id="@+id/nav_main_params"
+                android:icon="@drawable/ic_menu_main_params"
+                android:title="Основные" />
+            <item
+                android:id="@+id/nav_time"
+                android:icon="@drawable/ic_menu_timer"
+                android:title="Дата/Время" />
+            <item
+                android:id="@+id/nav_imp_1"
+                android:icon="@drawable/ic_menu_imp_1"
+                android:title="@string/menu_title_imp_1" />
+            <item
+                android:id="@+id/nav_imp_2"
+                android:icon="@drawable/ic_menu_imp_2"
+                android:title="@string/menu_title_imp_2" />
+        </menu>
+    </item>
+    <item android:title="Мониторинг">
+        <menu>
+            <item
+                android:id="@+id/nav_load_monitor"
+                android:icon="@drawable/ic_menu_load_monitor"
+                android:title="@string/menu_title_load" />
+        </menu>
+    </item>
+</menu>

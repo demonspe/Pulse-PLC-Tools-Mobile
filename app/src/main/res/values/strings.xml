@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Pulse PLC Tools</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Pulse PLC Tools</string>
+    <string name="nav_header_subtitle">plc@kursufa.ru</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_title_load">Текущая нагрузка</string>
+    <string name="menu_title_imp_1">Импульсный вход 1</string>
+    <string name="menu_title_imp_2">Импульсный вход 2</string>
+
+    <string-array name="workModes">
+        <item>Фаза A</item>
+        <item>Фаза B</item>
+        <item>Фаза C</item>
+        <item>Счетчик</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
