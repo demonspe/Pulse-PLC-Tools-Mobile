@@ -1,5 +1,7 @@
 package com.example.pulseplctoolsmobile;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,7 +51,10 @@ public class MainActivity extends AppCompatActivity
         fMainParams = new FragmentMainParams();
         fImpParams = new FragmentImpParams();
         fLoadMonitor = new FragmentLoadMonitor();
-
+        //Открываем страницу поиска
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fSearch);
+        transaction.commit();
     }
 
     @Override
