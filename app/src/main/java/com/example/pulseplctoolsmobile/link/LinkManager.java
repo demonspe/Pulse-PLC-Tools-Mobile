@@ -60,10 +60,7 @@ public class LinkManager {
     }
 
     //Flag
-    public boolean getIsConnected()
-    {
-        return isConnected;
-    }
+    public boolean getIsConnected() { return isConnected; }
     public boolean getIsConnecting() { return isConnecting; }
 
     //Search Devices
@@ -148,8 +145,8 @@ public class LinkManager {
             isConnecting = true;
             //Подключание
             mGatt = pulse.getBtDevice().connectGatt(context, false, gattCallback);
-            if(onMessageListener != null)
-                onMessageListener.onMessageShow("Попытка подключения к " + pulse.getFullName());
+            //if(onMessageListener != null)
+            //    onMessageListener.onMessageShow("Попытка подключения к " + pulse.getFullName());
         }
     }
     //Отключиться от устройства
@@ -176,8 +173,6 @@ public class LinkManager {
                     Log.e(TAG, "STATE_DISCONNECTED");
                     if(mDataReceivedListener != null)
                         mDataReceivedListener.onDisconnect();
-                    if(onMessageListener != null)
-                        onMessageListener.onMessageShow("Разрыв соединения Bluetooth");
                     isConnected = false;
                     isConnecting = false;
                     break;
@@ -200,17 +195,18 @@ public class LinkManager {
                     for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()){
                         //Получаем нужную характеристику
                         if (characteristic.getUuid().equals(UUID.fromString(HC_08_CHARACTERISTIC_UUID))){
+                            //Флаг о том что успешно подключено (нужен для меню)
+                            isConnected = true;
+                            isConnecting = false;
                             Log.d(TAG, "Получили характеристику, подписываемся на уведомления");
                             btCharacteristic = characteristic;
                             gatt.setCharacteristicNotification(characteristic, true);
                             //Сообщение об успешном подключении
-                            if(mDataReceivedListener != null)
-                                mDataReceivedListener.onConnectionSuccessful();
                             if(onMessageListener != null)
                                 onMessageListener.onMessageShow("Успешно подключено");
-                            //Флаг о том что успешно подключено (нужен для меню)
-                            isConnected = true;
-                            isConnecting = false;
+                            //Событие (Обязательно в самом конце!!!)
+                            if(mDataReceivedListener != null)
+                                mDataReceivedListener.onConnectionSuccessful();
                         }
                     }
                 }

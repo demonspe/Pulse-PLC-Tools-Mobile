@@ -34,7 +34,7 @@
     </string-array>
     <string-array name="protocolTypes">
         <item>Pulse PLC</item>
-        <item>Pulse PLC + Mercury 230ART</item>
+        <item>Mercury 230ART</item>
     </string-array>
     <string-array name="tariffsMode">
         <item>Один</item>

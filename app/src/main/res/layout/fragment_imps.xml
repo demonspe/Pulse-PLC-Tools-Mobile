@@ -8,21 +8,11 @@
     android:orientation="vertical"
     tools:context=".fragments.FragmentImpParams">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/txtTitleImpNum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="20dp"
-        android:text="Импульсный вход 1"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        app:layout_constraintTop_toTopOf="parent" />
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitleImpNum">
+        app:layout_constraintTop_toTopOf="parent">
         <!-- Область данных -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,14 +24,36 @@
                 android:orientation="vertical"
                 android:padding="20dp"
                 android:background="@android:drawable/dialog_holo_light_frame">
-
-                <!-- Переключатель "Вкл" -->
-                <Switch
-                    android:id="@+id/swEnable"
+                <TextView
+                    android:id="@+id/txtDeviceName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="Включен"/>
+                    android:padding="5dp"
+                    android:text="Показания на начало суток"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat" />
+                <!-- Переключатель "Вкл" -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/txtTitleImpNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:drawableLeft="@drawable/ic_menu_imp_1"
+                        android:text="  Импульсный вход 1"/>
+                    <Switch
+                        android:id="@+id/swEnable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="15dp"
+                        android:text=""/>
+                </LinearLayout>
+
                 <!-- Адрес PLC -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -58,14 +70,14 @@
                         android:id="@+id/tbAdrsPLC"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:padding="7dp"
                         android:ems="10"
                         android:inputType="phone" />
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Измерения -->
+            <!-- Показания на начало суток -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,8 +89,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Измерения"
-                    android:gravity="center"
+                    android:text="Показания на начало суток"
+                    android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat" />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,16 +101,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="5dp"
-                        android:drawableLeft="@drawable/ic_a_black_24dp"
-                        android:text="  Передаточное число"/>
-                    <EditText
-                        android:id="@+id/tbA"
+                        android:drawableLeft="@drawable/ic_equalizer_black_24dp"
+                        android:text="  E+ тариф 1 (кВт*ч)"/>
+                    <TextView
+                        android:id="@+id/txtEStartDayT1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:padding="7dp"
-                        android:ems="10"
-                        android:inputType="phone" />
+                        android:text="1000"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -109,16 +120,53 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="5dp"
-                        android:drawableLeft="@drawable/ic_loop_black_24dp"
-                        android:text="  Разрядность"/>
-                    <Spinner
-                        android:id="@+id/sCapacityMode"
+                        android:drawableLeft="@drawable/ic_equalizer_black_24dp"
+                        android:text="  E+ тариф 2 (кВт*ч)"/>
+                    <TextView
+                        android:id="@+id/txtEStartDayT2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="7dp"
+                        android:text="2000"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog"
-                        android:entries="@array/digitCapacityModes"/>
+                        android:padding="5dp"
+                        android:drawableLeft="@drawable/ic_equalizer_black_24dp"
+                        android:text="  E+ тариф 3 (кВт*ч)"/>
+                    <TextView
+                        android:id="@+id/txtEStartDayT3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="7dp"
+                        android:text="3000"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:drawableLeft="@drawable/ic_summ_black_24dp"
+                        android:text="  E+ Сумма (кВт*ч)"/>
+                    <TextView
+                        android:id="@+id/txtEStartDaySumm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="7dp"
+                        android:text="6000"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -152,7 +200,7 @@
                     android:id="@+id/tbECurrentT1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:padding="7dp"
                     android:ems="10"
                     android:inputType="numberDecimal" />
@@ -172,7 +220,7 @@
                     android:id="@+id/tbECurrentT2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:padding="7dp"
                     android:ems="10"
                     android:inputType="numberDecimal" />
@@ -192,14 +240,14 @@
                     android:id="@+id/tbECurrentT3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:padding="7dp"
                     android:ems="10"
                     android:inputType="numberDecimal" />
             </LinearLayout>
         </LinearLayout>
 
-            <!-- Показания на начало суток -->
+            <!-- Измерения -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -211,8 +259,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Показания на начало суток"
-                    android:textAlignment="center"
+                    android:text="Измерения"
+                    android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat" />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -221,17 +269,18 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:padding="5dp"
-                        android:drawableLeft="@drawable/ic_equalizer_black_24dp"
-                        android:text="  E+ тариф 1 (кВт*ч)"/>
-                    <TextView
-                        android:id="@+id/txtEStartDayT1"
+                        android:drawableLeft="@drawable/ic_a_black_24dp"
+                        android:text="  Передаточное число"/>
+                    <EditText
+                        android:id="@+id/tbA"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="5"
                         android:padding="7dp"
-                        android:text="1000"/>
+                        android:ems="10"
+                        android:inputType="phone" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -240,55 +289,18 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:padding="5dp"
-                        android:drawableLeft="@drawable/ic_equalizer_black_24dp"
-                        android:text="  E+ тариф 2 (кВт*ч)"/>
-                    <TextView
-                        android:id="@+id/txtEStartDayT2"
+                        android:drawableLeft="@drawable/ic_loop_black_24dp"
+                        android:text="  Разрядность"/>
+                    <Spinner
+                        android:id="@+id/sCapacityMode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="7dp"
-                        android:text="2000"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="5dp"
-                        android:drawableLeft="@drawable/ic_equalizer_black_24dp"
-                        android:text="  E+ тариф 3 (кВт*ч)"/>
-                    <TextView
-                        android:id="@+id/txtEStartDayT3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="7dp"
-                        android:text="3000"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="5dp"
-                        android:drawableLeft="@drawable/ic_summ_black_24dp"
-                        android:text="  E+ Сумма (кВт*ч)"/>
-                    <TextView
-                        android:id="@+id/txtEStartDaySumm"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="7dp"
-                        android:text="6000"/>
+                        android:layout_weight="3"
+                        android:padding="10dp"
+                        android:spinnerMode="dialog"
+                        android:entries="@array/digitCapacityModes"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -322,7 +334,7 @@
                     android:id="@+id/tbMaxLoad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:padding="7dp"
                     android:ems="10"
                     android:inputType="phone" />
@@ -359,7 +371,7 @@
                     android:id="@+id/tbNetAdrs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:padding="7dp"
                     android:ems="10"
                     android:inputType="phone" />
@@ -379,7 +391,7 @@
                     android:id="@+id/tbPass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:padding="7dp"
                     android:ems="10"
                     android:inputType="phone" />
@@ -562,19 +574,19 @@
             <!-- Пустота -->
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"/>
+                android:layout_height="80dp"/>
         </LinearLayout>
     </ScrollView>
     <LinearLayout
         android:id="@+id/buttonsRW"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
         <Button
             android:id="@+id/bReadImpParams"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_read"
@@ -585,7 +597,7 @@
         <Button
             android:id="@+id/bWriteImpParams"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:drawableRight="@drawable/ic_write"

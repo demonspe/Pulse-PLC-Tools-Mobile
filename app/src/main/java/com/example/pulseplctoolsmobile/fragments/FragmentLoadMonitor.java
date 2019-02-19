@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.example.pulseplctoolsmobile.R;
 import com.example.pulseplctoolsmobile.enums.ImpNum;
 import com.example.pulseplctoolsmobile.models.DeviceImpExParams;
+import com.example.pulseplctoolsmobile.models.PulseBtDevice;
+import com.example.pulseplctoolsmobile.protocol.AccessType;
 import com.example.pulseplctoolsmobile.protocol.Commands;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -32,8 +34,12 @@ public class FragmentLoadMonitor extends Fragment {
     TextView txtLoad, txtImpCounter, txtLastImpTime, txtTariff;
     GraphView graph;
     Switch swImp1, swImp2;
+    private TextView txtDeviceName;
+    private String deviceName;
+
     //Data
     LineGraphSeries<DataPoint> series;
+    int pointsCounter; //Счетчик для ограничения времени чтения
     //Timers
     private final Handler mHandler = new Handler();
     private Runnable mTimer1, mTimer2;
@@ -65,6 +71,9 @@ public class FragmentLoadMonitor extends Fragment {
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        txtDeviceName = view.findViewById(R.id.txtDeviceName);
+        txtDeviceName.setText(deviceName);
+
         graph = view.findViewById(R.id.graph);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
@@ -109,10 +118,12 @@ public class FragmentLoadMonitor extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
-                    //
+                    //Отключаем другое переключатель
                     swImp2.setChecked(false);
-                    //
+                    //Очищаем график
                     clearGraphData();
+                    //Устанавливаем счетчик количества чтений
+                    pointsCounter = 60;
                     //Запускаем перодический опрос
                     mHandler.postDelayed(mTimer1, 500);
                 }
@@ -126,10 +137,12 @@ public class FragmentLoadMonitor extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
-                    //
+                    //Отключаем другое переключатель
                     swImp1.setChecked(false);
-                    //
+                    //Очищаем график
                     clearGraphData();
+                    //Устанавливаем счетчик количества чтений
+                    pointsCounter = 60;
                     //Запускаем перодический опрос
                     mHandler.postDelayed(mTimer2, 500);
                 }
@@ -148,6 +161,15 @@ public class FragmentLoadMonitor extends Fragment {
 
     public void addNewDataPoint(DeviceImpExParams data) {
         if(data == null) return;
+        if(pointsCounter <= 0){
+            pointsCounter = 0;
+            mHandler.removeCallbacks(mTimer1);
+            mHandler.removeCallbacks(mTimer2);
+            swImp1.setChecked(false);
+            swImp2.setChecked(false);
+            return;
+        }
+        pointsCounter--;
         //To textViews
         txtLoad.setText("" + data.getCurrentPower() + " Вт");
         txtImpCounter.setText("" + data.getImpCounter());
@@ -160,6 +182,15 @@ public class FragmentLoadMonitor extends Fragment {
         DataPoint point = new DataPoint(currentTimeMs/1000, data.getCurrentPower());
         series.appendData(point, true, 60);
         graph.onDataChanged(false, false);
+    }
+
+    public void setCurrentDevice(PulseBtDevice device) {
+        deviceName = device.getFullName();
+        if(txtDeviceName != null) txtDeviceName.setText(deviceName);
+    }
+
+    public void setAccess(AccessType accessType){
+
     }
 
     @Override

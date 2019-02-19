@@ -23,28 +23,40 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/dialog_holo_light_frame"
-                android:orientation="horizontal">
-
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:background="@android:drawable/dialog_holo_light_frame">
                 <TextView
                     android:id="@+id/txtDeviceName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="7dp"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:text="  Фаза В [12345678]"
+                    android:padding="5dp"
+                    android:text="Имя устройства тут"
+                    android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat" />
-
-                <TextView
-                    android:id="@+id/txtVersionFirmware"
+                <!-- Переключатель "Вкл" -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="7dp"
-                    android:layout_weight="1"
-                    android:text="Прошивка v2.0.0" />
-            </LinearLayout>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:drawableLeft="@drawable/ic_version_firmware_black_24dp"
+                        android:text="  Версия прошивки"/>
 
+                    <TextView
+                        android:id="@+id/txtVersionFirmware"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="7dp"
+                        android:text="v2.0.0"
+                        android:textAppearance="@style/TextAppearance.AppCompat" />
+                </LinearLayout>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

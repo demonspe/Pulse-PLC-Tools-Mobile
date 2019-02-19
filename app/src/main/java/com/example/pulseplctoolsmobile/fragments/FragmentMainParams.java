@@ -19,6 +19,7 @@ import com.example.pulseplctoolsmobile.enums.InterfaceMode;
 import com.example.pulseplctoolsmobile.enums.WorkMode;
 import com.example.pulseplctoolsmobile.models.DeviceMainParams;
 import com.example.pulseplctoolsmobile.models.PulseBtDevice;
+import com.example.pulseplctoolsmobile.protocol.AccessType;
 import com.example.pulseplctoolsmobile.protocol.Commands;
 
 public class FragmentMainParams extends Fragment {
@@ -34,6 +35,7 @@ public class FragmentMainParams extends Fragment {
     private Spinner sWorkMode, sBatteryMode, sRS485Mode, sBluetoothMode;
 
     private String deviceName;
+    private AccessType access;
 
     //Events
     OnFragmentInteractionListener listener;
@@ -59,6 +61,7 @@ public class FragmentMainParams extends Fragment {
         txtVersionFirmware = view.findViewById(R.id.txtVersionFirmware);
         txtErrors = view.findViewById(R.id.txtErrors);
         txtDeviceName = view.findViewById(R.id.txtDeviceName);
+        txtDeviceName.setText(deviceName);
 
         //Спиннеры
         sWorkMode = view.findViewById(R.id.sWorkMode);
@@ -99,6 +102,10 @@ public class FragmentMainParams extends Fragment {
 
         //Кнопка "Записать основные параметры
         bWriteMainParams = view.findViewById(R.id.bWriteMainParams);
+        if(access == AccessType.Write)
+            bWriteMainParams.setEnabled(true);
+        else
+            bWriteMainParams.setEnabled(false);
         bWriteMainParams.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,13 +145,22 @@ public class FragmentMainParams extends Fragment {
         if(txtDeviceName != null) txtDeviceName.setText(deviceName);
     }
 
+    public void setAccess(AccessType accessType){
+        access = accessType;
+        if(bWriteMainParams == null) return;
+        if(access == AccessType.Write)
+            bWriteMainParams.setEnabled(true);
+        else
+            bWriteMainParams.setEnabled(false);
+    }
+
     public void setMainParams(DeviceMainParams params) {
         if(params == null) return;
         mainParams = params;
         //Имя устройства
         txtDeviceName.setText(deviceName);
         //Версия прошивки
-        txtVersionFirmware.setText("Версия прошивки: " + params.getVersionFirmware());
+        txtVersionFirmware.setText("" + params.getVersionFirmware());
         //Список ошибок
         txtErrors.setText(params.getErrorsList());
         //Режим работы

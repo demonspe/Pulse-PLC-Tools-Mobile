@@ -3,6 +3,7 @@ package com.example.pulseplctoolsmobile.fragments;
 
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,8 @@ import com.example.pulseplctoolsmobile.models.DeviceImpParams;
 import com.example.pulseplctoolsmobile.models.ImpEnergyGroup;
 import com.example.pulseplctoolsmobile.models.ImpEnergyValue;
 import com.example.pulseplctoolsmobile.models.ImpTime;
+import com.example.pulseplctoolsmobile.models.PulseBtDevice;
+import com.example.pulseplctoolsmobile.protocol.AccessType;
 import com.example.pulseplctoolsmobile.protocol.Commands;
 
 import java.util.Locale;
@@ -40,14 +43,17 @@ public class FragmentImpParams extends Fragment {
 
     //Data
     DeviceImpParams imp;
-    //
+    //Флаг для чтения параметров единожды при переходе на страницу
     boolean firstRead;
-
+    //Имя устройства
+    private String deviceName;
+    private AccessType access;
     //Buttons
     private Button bReadImpParams, bWriteImpParams;
 
     //UI
-    TextView txtTitleImpNum;
+    TextView txtDeviceName;
+    TextView txtTitleImpNum;//Для значка и названия номера входа
     Switch swEnable;        //Включен ли импульсный вход
     EditText tbAdrsPLC;     //Адрес PLC
     EditText tbA;           //Передаточное число
@@ -77,13 +83,6 @@ public class FragmentImpParams extends Fragment {
 
     }
 
-    public void resetFirstRead() {
-        firstRead = false;
-    }
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,7 +93,18 @@ public class FragmentImpParams extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         //Get UI
+        txtDeviceName =  view.findViewById(R.id.txtDeviceName);
         txtTitleImpNum = view.findViewById(R.id.txtTitleImpNum);
+        if(imp.getNum() == ImpNum.IMP1) {
+            txtTitleImpNum.setText("  Импульсный вход 1");
+            Drawable ic = getContext().getResources().getDrawable(R.drawable.ic_menu_imp_1 );
+            txtTitleImpNum.setCompoundDrawablesWithIntrinsicBounds(ic, null, null, null);
+        }
+        if(imp.getNum() == ImpNum.IMP2) {
+            txtTitleImpNum.setText("  Импульсный вход 2");
+            Drawable ic = getContext().getResources().getDrawable(R.drawable.ic_menu_imp_2 );
+            txtTitleImpNum.setCompoundDrawablesWithIntrinsicBounds(ic, null, null, null);
+        }
         swEnable = view.findViewById(R.id.swEnable);
         swEnable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -238,6 +248,10 @@ public class FragmentImpParams extends Fragment {
         });
         //Кнопка "Записать"
         bWriteImpParams = view.findViewById(R.id.bWriteImpParams);
+        if(access == AccessType.Write)
+            bWriteImpParams.setEnabled(true);
+        else
+            bWriteImpParams.setEnabled(false);
         bWriteImpParams.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,22 +273,37 @@ public class FragmentImpParams extends Fragment {
         setCurrentImp(imp.getNum());
         //Прочитаем параметры если не прочитано
         firstRead();
-
-
     }
 
     private void firstRead() {
         if(!firstRead && imp != null) {
+            firstRead = true;
             if(listener != null){
                 listener.onSendCmdRequest(Commands.Read_IMP, imp.getNum());
-                firstRead = true;
             }
         }
     }
 
+    public void resetFirstRead() {
+        firstRead = false;
+    }
+
+    public void setCurrentDevice(PulseBtDevice device) {
+        deviceName = device.getFullName();
+        if(txtDeviceName != null) txtDeviceName.setText(deviceName);
+    }
+
+    public void setAccess(AccessType accessType){
+        access = accessType;
+        if(bWriteImpParams == null) return;
+        if(access == AccessType.Write)
+            bWriteImpParams.setEnabled(true);
+        else
+            bWriteImpParams.setEnabled(false);
+    }
+
     public void setCurrentImp(ImpNum impNum) {
         imp = new DeviceImpParams(impNum);
-        resetFirstRead();
         setImpParams(imp);
     }
 
@@ -284,8 +313,8 @@ public class FragmentImpParams extends Fragment {
         imp = impParams;
 
         if(txtTitleImpNum == null) return;
-        txtTitleImpNum.setText(imp.getNum().getName());
-
+        //Имя устройства
+        txtDeviceName.setText(deviceName);
         //Выводим на экран
         swEnable.setChecked(false);
         swEnable.setChecked(true);

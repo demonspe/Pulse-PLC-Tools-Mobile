@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
 
     //Pass
     String currentPass;
+    boolean isReconnect;
 
     //Pulse PLC Device
     PulseBtDevice currentDevice;
@@ -232,8 +233,12 @@ public class MainActivity extends AppCompatActivity
         if(p == Pages.Search)
             replaceFragment(fSearch, false);
         if(p == Pages.MainParams) {
-            if(currentDevice != null)
+            if(currentDevice != null){
                 fMainParams.setCurrentDevice(currentDevice);
+                fImp1.setCurrentDevice(currentDevice);
+                fImp2.setCurrentDevice(currentDevice);
+                fLoadMonitor.setCurrentDevice(currentDevice);
+            }
             replaceFragment(fMainParams, false);
         }
         if(p == Pages.Imp1)
@@ -248,7 +253,8 @@ public class MainActivity extends AppCompatActivity
         if(currentDevice != null)
             if(!currentDevice.getFullName().equals(device.getFullName())) {
                 fMainParams.resetFirstRead();
-                //fImpParams.resetFirstRead();
+                fImp1.resetFirstRead();
+                fImp2.resetFirstRead();
             }
         currentDevice = device;
     }
@@ -308,6 +314,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConnectToDeviceRequest(PulseBtDevice device) {
         if(linkManager.getIsConnecting()) return;
+        isReconnect = false; //Это новое подключение (нужно вводить пароль)
         linkManager.disconnect();
         //Отобразим диалоговое окно подключения
         progressDialog.setMessage("Подключение к "+ device.getFullName());
@@ -337,8 +344,18 @@ public class MainActivity extends AppCompatActivity
             protocol.Send(cmd, param);
         }
         else {
-            MsgOnUiThread("Подключение утеряно");
-            gotoPage(Pages.Search);
+            if(currentDevice == null){
+                MsgOnUiThread("Устройство не выбрано. Выполните поиск и выберите устройство из списка.");
+                return;
+            }
+            //Отобразим диалоговое окно подключения
+            progressDialog.setMessage("Повторное подключение к "+ currentDevice.getFullName());
+            progressDialog.show();
+            isReconnect = true; //Это повторное подключение (пароль будет введен автоматически)
+            //Остановим сканирование
+            linkManager.scanLeDevice(false);
+            //Подключемся
+            linkManager.connect(this, currentDevice);
         }
     }
 
@@ -354,20 +371,29 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onConnectionSuccessful() {
+        MsgOnUiThread("Открыто соединения Bluetooth.");
         //Закроем диалоговое окно ожидания подключения
         if (progressDialog.isShowing()) progressDialog.dismiss();
-
         //После успешного подключения открываем окно ввода пароля
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                showPassRequestDialog();
-            }
-        });
+        //Или вводим старый пароль и отправляем запрос авторизации
+        if(isReconnect){
+            PulsePLCv2LoginPass loginPass =
+                    new PulsePLCv2LoginPass(currentDevice.getSerialNum(), currentPass);
+            protocol.Send(Commands.Check_Pass, loginPass);
+        }
+        else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showPassRequestDialog();
+                }
+            });
+        }
     }
 
     @Override
     public void onDisconnect() {
+        MsgOnUiThread("Разрыв соединения Bluetooth.");
         //Закроем диалоговое окно ожидания подключения
         if (progressDialog.isShowing()) progressDialog.dismiss();
     }
@@ -489,17 +515,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onAccessEnd() {
-        //TODO придумать что-то нормальное (30 секунд мало)
-        if(isPaused) {
-            linkManager.disconnect();
-        }
-        else
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    gotoPage(Pages.Search);
-                }
-            });
+        linkManager.disconnect();
     }
 
     @Override
@@ -511,6 +527,9 @@ public class MainActivity extends AppCompatActivity
                 gotoPage(Pages.MainParams);
             }
         });
+        fMainParams.setAccess(accessType);
+        fImp1.setAccess(accessType);
+        fImp2.setAccess(accessType);
     }
 
     //region Отображение всплывающего сообщения
