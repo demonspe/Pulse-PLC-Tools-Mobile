@@ -28,42 +28,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:background="@android:drawable/dialog_holo_light_frame">
-            <!-- Переключатель "Вкл" -->
-            <Switch
-                android:id="@+id/swEnable"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="Включен"/>
-            <!-- Адрес PLC -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:background="@android:drawable/dialog_holo_light_frame">
+
+                <!-- Переключатель "Вкл" -->
+                <Switch
+                    android:id="@+id/swEnable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:drawableLeft="@drawable/ic_123_list_black_24dp"
-                    android:text="  Адрес PLC"/>
-                <EditText
-                    android:id="@+id/tbAdrsPLC"
+                    android:padding="15dp"
+                    android:text="Включен"/>
+                <!-- Адрес PLC -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="7dp"
-                    android:ems="10"
-                    android:inputType="phone" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:drawableLeft="@drawable/ic_123_list_black_24dp"
+                        android:text="  Адрес PLC"/>
+                    <EditText
+                        android:id="@+id/tbAdrsPLC"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="7dp"
+                        android:ems="10"
+                        android:inputType="phone" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+
             <!-- Измерения -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -352,7 +353,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
-                    android:text="Сетевой адрес"/>
+                    android:drawableLeft="@drawable/ic_usb_black_24dp"
+                    android:text="  Сетевой адрес"/>
                 <EditText
                     android:id="@+id/tbNetAdrs"
                     android:layout_width="match_parent"
@@ -371,7 +373,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
-                    android:text="Пароль"/>
+                    android:drawableLeft="@drawable/ic_pass_black_24dp"
+                    android:text="  Пароль"/>
                 <EditText
                     android:id="@+id/tbPass"
                     android:layout_width="match_parent"
@@ -390,7 +393,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
-                    android:text="Тип протокола"/>
+                    android:drawableLeft="@drawable/ic_protocol_type_black_24dp"
+                    android:text="  Тип протокола"/>
                 <Spinner
                     android:id="@+id/sProtocolType"
                     android:layout_width="match_parent"
@@ -404,12 +408,11 @@
 
             <!-- Тарифное расписание -->
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:background="@android:drawable/dialog_holo_light_frame">
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:background="@android:drawable/dialog_holo_light_frame">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -417,221 +420,144 @@
                     android:text="Тарифное расписание"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat" />
-            <!-- Количество тарифов -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
+                <!-- Количество тарифов -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:text="Количество тарифов"/>
-                <Spinner
-                    android:id="@+id/sTariffsMode"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:drawableLeft="@drawable/ic_t_black_24dp"
+                        android:text="  Количество тарифов"/>
+                    <Spinner
+                        android:id="@+id/sTariffsMode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="10dp"
+                        android:spinnerMode="dialog"
+                        android:entries="@array/tariffsMode"/>
+                </LinearLayout>
+                <!-- Время тарифов -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:spinnerMode="dialog"
-                    android:entries="@array/tariffsMode"/>
-            </LinearLayout>
-            <!-- Время тарифов -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="12dp"
-                    android:text="Начало Т1 (утро пик)"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0">
-                    <Spinner
-                        android:id="@+id/T1_Time_1_Hours"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog"
-                        android:entries="@array/hours"/>
+                    android:orientation="horizontal">
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="12dp"
-                        android:text=" : "/>
-                    <Spinner
-                        android:id="@+id/T1_Time_1_Minutes"
-                        android:layout_width="70dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog"
-                        android:entries="@array/minutes"/>
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_menu_timer"
+                        android:text="  Начало Т1 (утро пик)"/>
+
+                    <Button
+                        android:id="@+id/bT1_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="12dp"
+                        android:text="21:39"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_menu_timer"
+                        android:text="  Начало Т3 (утро полупик)"/>
+
+                    <Button
+                        android:id="@+id/bT3_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="12dp"
+                        android:text="21:39"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_menu_timer"
+                        android:text="  Начало Т1 (день пик)"/>
+
+                    <Button
+                        android:id="@+id/bT1_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="12dp"
+                        android:text="21:39"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_menu_timer"
+                        android:text="  Начало Т3 (день полупик)"/>
+
+                    <Button
+                        android:id="@+id/bT3_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="12dp"
+                        android:text="21:39"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_menu_timer"
+                        android:text="  Начало Т2 (ночь)"/>
+
+                    <Button
+                        android:id="@+id/bT2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:padding="12dp"
+                        android:text="21:39"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="12dp"
-                    android:text="Начало Т3 (утро полупик)"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0">
-
-                    <Spinner
-                        android:id="@+id/T3_Time_1_Hours"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/hours"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="12dp"
-                        android:text=" : "/>
-
-                    <Spinner
-                        android:id="@+id/T3_Time_1_Minutes"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/minutes"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog" />
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="12dp"
-                    android:text="Начало Т1 (день пик)"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0">
-
-                    <Spinner
-                        android:id="@+id/T1_Time_2_Hours"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/hours"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="12dp"
-                        android:text=" : "/>
-
-                    <Spinner
-                        android:id="@+id/T1_Time_2_Minutes"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/minutes"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog" />
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="12dp"
-                    android:text="Начало Т3 (день полупик)"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0">
-
-                    <Spinner
-                        android:id="@+id/T3_Time_2_Hours"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/hours"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="12dp"
-                        android:text=" : "/>
-
-                    <Spinner
-                        android:id="@+id/T3_Time_2_Minutes"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/minutes"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog" />
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="12dp"
-                    android:text="Начало Т2 (ночь)"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0">
-
-                    <Spinner
-                        android:id="@+id/T2_Time_Hours"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/hours"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="12dp"
-                        android:text=" : "/>
-
-                    <Spinner
-                        android:id="@+id/T2_Time_Minutes"
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/minutes"
-                        android:padding="10dp"
-                        android:spinnerMode="dialog" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
 
             <!-- Пустота -->
             <TextView

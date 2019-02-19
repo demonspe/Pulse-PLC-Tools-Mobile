@@ -1,6 +1,7 @@
 package com.example.pulseplctoolsmobile.fragments;
 
 
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,12 +10,14 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.pulseplctoolsmobile.Helper;
 import com.example.pulseplctoolsmobile.R;
@@ -27,6 +30,8 @@ import com.example.pulseplctoolsmobile.models.ImpEnergyGroup;
 import com.example.pulseplctoolsmobile.models.ImpEnergyValue;
 import com.example.pulseplctoolsmobile.models.ImpTime;
 import com.example.pulseplctoolsmobile.protocol.Commands;
+
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,11 +64,7 @@ public class FragmentImpParams extends Fragment {
 
     //Тарифы
     Spinner sTariffsMode;
-    Spinner T1_Time_1_Hours, T1_Time_1_Minutes;
-    Spinner T3_Time_1_Hours, T3_Time_1_Minutes;
-    Spinner T1_Time_2_Hours, T1_Time_2_Minutes;
-    Spinner T3_Time_2_Hours, T3_Time_2_Minutes;
-    Spinner T2_Time_Hours, T2_Time_Minutes;
+    Button bT1_1, bT3_1, bT1_2, bT3_2, bT2;
 
     //Events
     OnFragmentInteractionListener listener;
@@ -113,16 +114,10 @@ public class FragmentImpParams extends Fragment {
                 tbNetAdrs.setEnabled(isChecked);
                 tbPass.setEnabled(isChecked);
                 sTariffsMode.setEnabled(isChecked);
-                T1_Time_1_Hours.setEnabled(isChecked);
-                T3_Time_1_Hours.setEnabled(isChecked);
-                T1_Time_2_Hours.setEnabled(isChecked);
-                T3_Time_2_Hours.setEnabled(isChecked);
-                T2_Time_Hours.setEnabled(isChecked);
-                T1_Time_1_Minutes.setEnabled(isChecked);
-                T3_Time_1_Minutes.setEnabled(isChecked);
-                T1_Time_2_Minutes.setEnabled(isChecked);
-                T3_Time_2_Minutes.setEnabled(isChecked);
-                T2_Time_Minutes.setEnabled(isChecked);
+                if(isChecked)
+                    setEnabledDisabledTariffsTime(sTariffsMode.getSelectedItemPosition());
+                else
+                    setEnabledDisabledTariffsTime(0);
             }
         });
         tbAdrsPLC = view.findViewById(R.id.tbAdrsPLC);
@@ -144,16 +139,92 @@ public class FragmentImpParams extends Fragment {
         tbPass = view.findViewById(R.id.tbPass);
 
         sTariffsMode = view.findViewById(R.id.sTariffsMode);
-        T1_Time_1_Hours = view.findViewById(R.id.T1_Time_1_Hours);
-        T3_Time_1_Hours = view.findViewById(R.id.T3_Time_1_Hours);
-        T1_Time_2_Hours = view.findViewById(R.id.T1_Time_2_Hours);
-        T3_Time_2_Hours = view.findViewById(R.id.T3_Time_2_Hours);
-        T2_Time_Hours = view.findViewById(R.id.T2_Time_Hours);
-        T1_Time_1_Minutes = view.findViewById(R.id.T1_Time_1_Minutes);
-        T3_Time_1_Minutes = view.findViewById(R.id.T3_Time_1_Minutes);
-        T1_Time_2_Minutes = view.findViewById(R.id.T1_Time_2_Minutes);
-        T3_Time_2_Minutes = view.findViewById(R.id.T3_Time_2_Minutes);
-        T2_Time_Minutes = view.findViewById(R.id.T2_Time_Minutes);
+        sTariffsMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setEnabledDisabledTariffsTime(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        bT1_1 = view.findViewById(R.id.bT1_1);
+        bT1_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        imp.setT1_Time_1(new ImpTime((byte)hourOfDay, (byte)minute));
+                        bT1_1.setText(String.format("%02d", imp.getT1_Time_1().getHours()) +
+                                " : " +
+                                String.format("%02d", imp.getT1_Time_1().getMinutes()));
+                    }
+                }, imp.getT1_Time_1().getHours(), imp.getT1_Time_1().getMinutes(), true).show();
+            }
+        });
+        bT3_1 = view.findViewById(R.id.bT3_1);
+        bT3_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        imp.setT3_Time_1(new ImpTime((byte)hourOfDay, (byte)minute));
+                        bT3_1.setText(String.format("%02d", imp.getT3_Time_1().getHours()) +
+                                " : " +
+                                String.format("%02d", imp.getT3_Time_1().getMinutes()));
+                    }
+                }, imp.getT3_Time_1().getHours(), imp.getT3_Time_1().getMinutes(), true).show();
+            }
+        });
+        bT1_2 = view.findViewById(R.id.bT1_2);
+        bT1_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        imp.setT1_Time_2(new ImpTime((byte)hourOfDay, (byte)minute));
+                        bT1_2.setText(String.format("%02d", imp.getT1_Time_2().getHours()) +
+                                " : " +
+                                String.format("%02d", imp.getT1_Time_2().getMinutes()));
+                    }
+                }, imp.getT1_Time_2().getHours(), imp.getT1_Time_2().getMinutes(), true).show();
+            }
+        });
+        bT3_2 = view.findViewById(R.id.bT3_2);
+        bT3_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        imp.setT3_Time_2(new ImpTime((byte)hourOfDay, (byte)minute));
+                        bT3_2.setText(String.format("%02d", imp.getT3_Time_2().getHours()) +
+                                " : " +
+                                String.format("%02d", imp.getT3_Time_2().getMinutes()));
+                    }
+                }, imp.getT3_Time_2().getHours(), imp.getT3_Time_2().getMinutes(), true).show();
+            }
+        });
+        bT2 = view.findViewById(R.id.bT2);
+        bT2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        imp.setT2_Time(new ImpTime((byte)hourOfDay, (byte)minute));
+                        bT2.setText(String.format("%02d", imp.getT2_Time().getHours()) +
+                                " : " +
+                                String.format("%02d", imp.getT2_Time().getMinutes()));
+                    }
+                }, imp.getT2_Time().getHours(), imp.getT2_Time().getMinutes(), true).show();
+            }
+        });
 
         //Buttons
         //Кнопка "Прочитать"
@@ -188,6 +259,8 @@ public class FragmentImpParams extends Fragment {
         setCurrentImp(imp.getNum());
         //Прочитаем параметры если не прочитано
         firstRead();
+
+
     }
 
     private void firstRead() {
@@ -236,16 +309,21 @@ public class FragmentImpParams extends Fragment {
         tbPass.setText(imp.getAscue_pass_string());
 
         sTariffsMode.setSelection(imp.getT_qty().ordinal());
-        T1_Time_1_Hours.setSelection(imp.getT1_Time_1().getHours());
-        T1_Time_1_Minutes.setSelection(imp.getT1_Time_1().getMinutes());
-        T3_Time_1_Hours.setSelection(imp.getT3_Time_1().getHours());
-        T3_Time_1_Minutes.setSelection(imp.getT3_Time_1().getMinutes());
-        T1_Time_2_Hours.setSelection(imp.getT1_Time_2().getHours());
-        T1_Time_2_Minutes.setSelection(imp.getT1_Time_2().getMinutes());
-        T3_Time_2_Hours.setSelection(imp.getT3_Time_2().getHours());
-        T3_Time_2_Minutes.setSelection(imp.getT3_Time_2().getMinutes());
-        T2_Time_Hours.setSelection(imp.getT2_Time().getHours());
-        T2_Time_Minutes.setSelection(imp.getT2_Time().getMinutes());
+        bT1_1.setText(String.format("%02d", imp.getT1_Time_1().getHours()) +
+                " : " +
+                String.format("%02d", imp.getT1_Time_1().getMinutes()));
+        bT3_1.setText(String.format("%02d", imp.getT3_Time_1().getHours()) +
+                " : " +
+                String.format("%02d", imp.getT3_Time_1().getMinutes()));
+        bT1_2.setText(String.format("%02d", imp.getT1_Time_2().getHours()) +
+                " : " +
+                String.format("%02d", imp.getT1_Time_2().getMinutes()));
+        bT3_2.setText(String.format("%02d", imp.getT3_Time_2().getHours()) +
+                " : " +
+                String.format("%02d", imp.getT3_Time_2().getMinutes()));
+        bT2.setText(String.format("%02d", imp.getT2_Time().getHours()) +
+                " : " +
+                String.format("%02d", imp.getT2_Time().getMinutes()));
     }
 
     public DeviceImpParams getImpParams() {
@@ -267,32 +345,28 @@ public class FragmentImpParams extends Fragment {
 
         imp.setT_qty(ImpNumOfTarifs.values()[sTariffsMode.getSelectedItemPosition()]);
 
-        ImpTime t1_1 = new ImpTime();
-        t1_1.setHours((byte)T1_Time_1_Hours.getSelectedItemPosition());
-        t1_1.setMinutes((byte)T1_Time_1_Minutes.getSelectedItemPosition());
-
-        ImpTime t3_1 = new ImpTime();
-        t3_1.setHours((byte)T3_Time_1_Hours.getSelectedItemPosition());
-        t3_1.setMinutes((byte)T3_Time_1_Minutes.getSelectedItemPosition());
-
-        ImpTime t1_2 = new ImpTime();
-        t1_2.setHours((byte)T1_Time_2_Hours.getSelectedItemPosition());
-        t1_2.setMinutes((byte)T1_Time_2_Minutes.getSelectedItemPosition());
-
-        ImpTime t3_2 = new ImpTime();
-        t3_2.setHours((byte)T3_Time_2_Hours.getSelectedItemPosition());
-        t3_2.setMinutes((byte)T3_Time_2_Minutes.getSelectedItemPosition());
-
-        ImpTime t2 = new ImpTime();
-        t2.setHours((byte)T2_Time_Hours.getSelectedItemPosition());
-        t2.setMinutes((byte)T2_Time_Minutes.getSelectedItemPosition());
-
-        imp.setT1_Time_1(t1_1);
-        imp.setT3_Time_1(t3_1);
-        imp.setT1_Time_2(t1_2);
-        imp.setT3_Time_2(t3_2);
-        imp.setT2_Time(t2);
-
         return imp;
+    }
+
+    private void setEnabledDisabledTariffsTime(int numOfTariffsIndex){
+        if(numOfTariffsIndex == 0){ //Один тариф
+            bT1_1.setEnabled(false);
+            bT3_1.setEnabled(false);
+            bT1_2.setEnabled(false);
+            bT3_2.setEnabled(false);
+            bT2.setEnabled(false);
+        } else if(numOfTariffsIndex == 1){ //Два
+            bT1_1.setEnabled(true);
+            bT3_1.setEnabled(false);
+            bT1_2.setEnabled(false);
+            bT3_2.setEnabled(false);
+            bT2.setEnabled(true);
+        } else if(numOfTariffsIndex == 2){ //Три
+            bT1_1.setEnabled(true);
+            bT3_1.setEnabled(true);
+            bT1_2.setEnabled(true);
+            bT3_2.setEnabled(true);
+            bT2.setEnabled(true);
+        }
     }
 }
