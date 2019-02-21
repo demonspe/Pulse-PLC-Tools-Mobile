@@ -19,17 +19,18 @@ public class ImpEnergyGroup {
     public void setE_T3(ImpEnergyValue value) { e_T3_Value = value; }
 
     public String getE_T1_View() {
-        if(isCorrect && e_T1_Value.getValue_Wt() < 0xFFFFFFFF)
+        if(isCorrect && e_T1_Value.getValue_Wt() < 0xFFFFFFFFL)
             return "" + e_T1_Value.getValue_kWt();
-        else return "-";
+        else
+            return "-";
     }
     public String getE_T2_View() {
-        if(isCorrect && e_T2_Value.getValue_Wt() < 0xFFFFFFFF)
+        if(isCorrect && e_T2_Value.getValue_Wt() < 0xFFFFFFFFL)
             return "" + e_T2_Value.getValue_kWt();
         else return "-";
     }
     public String getE_T3_View() {
-        if(isCorrect && e_T3_Value.getValue_Wt() < 0xFFFFFFFF)
+        if(isCorrect && e_T3_Value.getValue_Wt() < 0xFFFFFFFFL)
             return "" + e_T3_Value.getValue_kWt();
         else return "-";
     }
@@ -38,9 +39,9 @@ public class ImpEnergyGroup {
         if (isCorrect)
         {
             double summ = 0;
-            if (e_T1_Value.getValue_kWt() < 0xFFFFFFFF) summ += e_T1_Value.getValue_kWt();
-            if (e_T2_Value.getValue_kWt() < 0xFFFFFFFF) summ += e_T2_Value.getValue_kWt();
-            if (e_T3_Value.getValue_kWt() < 0xFFFFFFFF) summ += e_T3_Value.getValue_kWt();
+            if (e_T1_Value.getValue_kWt() < 0xFFFFFFFFL) summ += e_T1_Value.getValue_kWt();
+            if (e_T2_Value.getValue_kWt() < 0xFFFFFFFFL) summ += e_T2_Value.getValue_kWt();
+            if (e_T3_Value.getValue_kWt() < 0xFFFFFFFFL) summ += e_T3_Value.getValue_kWt();
             return "" + summ;
         }
         else

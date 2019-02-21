@@ -195,6 +195,8 @@ public class FragmentLoadMonitor extends Fragment {
 
     @Override
     public void onPause() {
+        swImp1.setChecked(false);
+        swImp2.setChecked(false);
         mHandler.removeCallbacks(mTimer1);
         mHandler.removeCallbacks(mTimer2);
         super.onPause();

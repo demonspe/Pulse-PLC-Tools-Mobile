@@ -549,7 +549,7 @@ public class ProtocolPulsePLCv2 {
             e_bytes = new byte[] { rxBytes[pntr++], rxBytes[pntr++], rxBytes[pntr++], rxBytes[pntr++] };
             E = Helper.bytesToLong(e_bytes, 4);
             e_start.setE_T3(new ImpEnergyValue(E));
-            Imp.setE_Current(e_start);
+            Imp.setE_StartDay(e_start);
 
             //Максимальная мощность
             Imp.setMax_Power((int)Helper.bytesToLong(new byte[] { rxBytes[pntr++], rxBytes[pntr++] }, 2));

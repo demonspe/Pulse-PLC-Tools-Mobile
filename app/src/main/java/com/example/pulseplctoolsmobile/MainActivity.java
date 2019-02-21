@@ -71,8 +71,9 @@ public class MainActivity extends AppCompatActivity
     //Диалоговое окно прогресса
     private ProgressDialog progressDialog;
 
-    //Pass
+    //Сохраненный пароль для переподключения в случае утери свзи
     String currentPass;
+    //Флаг указывающий что мы переподключаемся к тому же устройству используя старый пароль
     boolean isReconnect;
 
     //Pulse PLC Device
@@ -314,6 +315,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConnectToDeviceRequest(PulseBtDevice device) {
         if(linkManager.getIsConnecting()) return;
+        //Это событие вызывается по кнопке из экрана поиска устройств
         isReconnect = false; //Это новое подключение (нужно вводить пароль)
         linkManager.disconnect();
         //Отобразим диалоговое окно подключения
@@ -520,13 +522,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onAccessGranted(AccessType accessType) {
-        //После успешной авторизации, переходим к основным параметрам
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                gotoPage(Pages.MainParams);
-            }
-        });
+        //Если мы переподключаемся, то не нужно никуда переходить
+        if(!isReconnect){
+            //После успешной авторизации, переходим к основным параметрам
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    gotoPage(Pages.MainParams);
+                }
+            });
+        }
         fMainParams.setAccess(accessType);
         fImp1.setAccess(accessType);
         fImp2.setAccess(accessType);
